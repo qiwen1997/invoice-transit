@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.mq.listener;
+package com.yonyou.invoicetransit.mq;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -9,7 +9,11 @@ import com.rabbitmq.client.Channel;
 import com.yonyou.invoicetransit.entity.MqContext;
 import com.yonyou.invoicetransit.entity.MqInvoiceApply;
 import com.yonyou.invoicetransit.entity.MqMessage;
+import com.yonyou.invoicetransit.entity.transit.ResultInvoice;
 import com.yonyou.invoicetransit.msg.EinvoicePdfGenResult;
+import com.yonyou.invoicetransit.simulation.ReturnInvoice;
+import com.yonyou.invoicetransit.tools.RandomCharData;
+import com.yonyou.invoicetransit.tools.Tools;
 import com.yonyou.invoicetransit.utils.exception.BusinessRuntimeException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -17,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -80,12 +83,13 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
       String messageStr = new String(body, CHARSET_GBK);
 
       MqMessage mqMessage = JSON.parseObject(messageStr, MqMessage.class);
-      MqContext context = mqMessage.getContext();
-      String type = context.getType();
 
-      logger.info(mqMessage.toString());
+      logger.info(ReturnInvoice.toXML(Tools.getFpqqlsh(mqMessage)));
+      //MqContext context = mqMessage.getContext();
+      //String type = context.getType();
+      // logger.info(JSON.toJSONString(mqMessage));
      // logger.info("MqContext"+context.toString());
-
+      //logger.info(Tool.getFpqqlsh(mqMessage));
 
     } catch (Exception ex) {
       isAck = true;

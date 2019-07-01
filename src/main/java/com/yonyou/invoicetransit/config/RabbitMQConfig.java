@@ -1,9 +1,8 @@
 package com.yonyou.invoicetransit.config;
 
 import com.yonyou.invoicetransit.converter.FastJsonMessageConverter;
-import com.yonyou.invoicetransit.mq.listener.InvoiceMQListener;
+import com.yonyou.invoicetransit.mq.InvoiceMQListener;
 import org.springframework.amqp.core.AcknowledgeMode;
-import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -31,6 +30,10 @@ public class RabbitMQConfig {
 
   @Value("${invoice.mq.queues}")
   private String queues;
+
+  private static final String EXCHANGE_NAME = "iuap-direct-exchange";
+
+  private static final String ROUTINGKEY_FLAG = "_KEY";
 
   @Bean
   public ConnectionFactory connectionFactory(){
