@@ -19,7 +19,7 @@ public class FastJsonMessageConverter extends AbstractMessageConverter {
 
   private static final String CLASS_TYPE = "CLASS_TYPE";
 
-  public static final String DEFAULT_CHARSET = "UTF-8";
+ // public static final String DEFAULT_CHARSET = "UTF-8";
 
   private volatile String defaultCharset = "UTF-8";
 
@@ -61,9 +61,9 @@ public class FastJsonMessageConverter extends AbstractMessageConverter {
     return null;
   }
 
-  public String getDefaultCharset() {
-    return defaultCharset;
-  }
+//  public String getDefaultCharset() {
+//    return defaultCharset;
+//  }
 
   public void setDefaultCharset(String defaultCharset) {
     this.defaultCharset = defaultCharset;

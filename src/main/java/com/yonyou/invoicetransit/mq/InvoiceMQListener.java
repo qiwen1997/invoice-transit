@@ -1,18 +1,12 @@
 package com.yonyou.invoicetransit.mq;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.rabbitmq.client.Channel;
-import com.yonyou.invoicetransit.entity.MqContext;
-import com.yonyou.invoicetransit.entity.MqInvoiceApply;
 import com.yonyou.invoicetransit.entity.MqMessage;
-import com.yonyou.invoicetransit.entity.transit.ResultInvoice;
-import com.yonyou.invoicetransit.msg.EinvoicePdfGenResult;
 import com.yonyou.invoicetransit.simulation.ReturnInvoice;
-import com.yonyou.invoicetransit.tools.RandomCharData;
 import com.yonyou.invoicetransit.tools.Tools;
 import com.yonyou.invoicetransit.utils.exception.BusinessRuntimeException;
 import java.io.IOException;
@@ -53,13 +47,6 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
    */
   private static final int MAX_RETRY_TIME = 3;
 
-  //反序列化
-  private static final TypeReference<MqMessage<MqInvoiceApply>> TYPE_REFERENCE =
-      new TypeReference<MqMessage<MqInvoiceApply>>() {
-      };
-  private static final TypeReference<MqMessage<EinvoicePdfGenResult>> TYPE_RESULT_REFERENCE =
-      new TypeReference<MqMessage<EinvoicePdfGenResult>>() {
-      };
 
 
 
@@ -72,7 +59,7 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
     CacheBuilder.newBuilder();
     boolean isAck = false;
     try {
-      logger.info("====消息id为：{}", message.getMessageProperties().getMessageId());
+      //logger.info("====消息id为：{}", message.getMessageProperties().getMessageId());
       // 处理消息，避免无限发送
       boolean isContinue = preProcess(message, channel);
       if (!isContinue) {
@@ -84,12 +71,22 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
 
       MqMessage mqMessage = JSON.parseObject(messageStr, MqMessage.class);
 
-      logger.info(ReturnInvoice.toXML(Tools.getFpqqlsh(mqMessage)));
+      if(JSON.toJSONString(mqMessage).contains("<Kp>")){
+        logger.info(ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
+      }else{
+        logger.info(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
+      }
+
+
+
+
+      //logger.info(JSON.toJSONString(message));
+      //logger.info(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
       //MqContext context = mqMessage.getContext();
       //String type = context.getType();
-      // logger.info(JSON.toJSONString(mqMessage));
+      //logger.info(messageStr);
+       //logger.info(JSON.toJSONString(mqMessage));
      // logger.info("MqContext"+context.toString());
-      //logger.info(Tool.getFpqqlsh(mqMessage));
 
     } catch (Exception ex) {
       isAck = true;
