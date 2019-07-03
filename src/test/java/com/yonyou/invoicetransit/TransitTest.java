@@ -3,7 +3,7 @@ package com.yonyou.invoicetransit;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
-import com.yonyou.einvoice.common.transform.XMLTransformFacade;
+import com.github.pkuliuqiang.XMLTransformFacade;
 import com.yonyou.invoicetransit.entity.transit.Business;
 import com.yonyou.invoicetransit.entity.transit.ResponseCommonFpkj;
 import com.yonyou.invoicetransit.entity.transit.ResultInvoice;
@@ -40,7 +40,8 @@ public class TransitTest {
 
     //JSONObject retObj = new JSONObject(true);
     //Feature.OrderedField保证字段顺序
-    System.out.println(XMLTransformFacade.getXMLStrFromJSONObject(JSONObject.parseObject(JSON.toJSONString(resultInvoice), Feature.OrderedField)));
+    System.out.println(XMLTransformFacade
+        .getXMLStrFromJSONObject(JSONObject.parseObject(JSON.toJSONString(resultInvoice), Feature.OrderedField)));
   }
 
   /**

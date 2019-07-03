@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.yonyou.invoicetransit.utils.exception;
+package com.yonyou.invoicetransit.exception;
 
 /**
  * @author wangweir
