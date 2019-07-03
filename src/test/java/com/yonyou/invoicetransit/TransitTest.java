@@ -9,6 +9,7 @@ import com.yonyou.invoicetransit.entity.transit.ResponseCommonFpkj;
 import com.yonyou.invoicetransit.entity.transit.ResultInvoice;
 import com.yonyou.invoicetransit.simulation.ReturnInvoice;
 import com.yonyou.invoicetransit.tools.RandomCharData;
+import com.yonyou.invoicetransit.tools.StringToFile;
 import com.yonyou.invoicetransit.tools.Tools;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,6 +71,7 @@ public class TransitTest {
 
     log.info(RandomCharData.createFPDM());
     log.info(RandomCharData.createData(12));
+    log.info(RandomCharData.createRandomCharData(10));
   }
 
   @Test
@@ -203,4 +205,82 @@ public class TransitTest {
     System.out.println(ReturnInvoice.paperToXML("1145893371939434496"));
   }
 
+  //测试Tools.getXML
+  @Test
+  public void getXMLTest(){
+    String messageStr="{\n"
+        + "    \"context\": {\n"
+        + "        \"corpid\": \"1937501a-b06f-4bf6-87d6-d5b515dacd26\", \n"
+        + "        \"equipmentCode\": \"电票01\", \n"
+        + "        \"id\": \"7404a795-3b60-49bf-a063-db038e9db1eb\", \n"
+        + "        \"nsrsbh\": \"111222333456111\", \n"
+        + "        \"type\": \"InvoiceApply\"\n"
+        + "    }, \n"
+        + "    \"data\": {\n"
+        + "        \"data\": \"<?xml version=\\\"1.0\\\" encoding=\\\"GBK\\\"?>\n"
+        + "<business comment=\\\"发票开具\\\" id=\\\"FPKJ\\\">\n"
+        + "    <REQUEST_COMMON_FPKJ class=\\\"REQUEST_COMMON_FPKJ\\\">\n"
+        + "        <COMMON_FPKJ_FPT class=\\\"COMMON_FPKJ_FPT\\\">\n"
+        + "            <FPQQLSH>1146322763979206656</FPQQLSH>\n"
+        + "            <BMB_BBH>12.0</BMB_BBH>\n"
+        + "            <KPLX>0</KPLX>\n"
+        + "            <CPYBZ/>\n"
+        + "            <HSBZ>0</HSBZ>\n"
+        + "            <XSF_NSRSBH>111222333456111</XSF_NSRSBH>\n"
+        + "            <XSF_MC>测试1</XSF_MC>\n"
+        + "            <XSF_DZDH>海淀122 89891111</XSF_DZDH>\n"
+        + "            <XSF_YHZH>七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十 一</XSF_YHZH>\n"
+        + "            <GMF_NSRSBH>91110000600001760P</GMF_NSRSBH>\n"
+        + "            <GMF_MC>用友网络科技股份有限公司</GMF_MC>\n"
+        + "            <GMF_DZDH>北京市海淀区北清路68号 010-86396688</GMF_DZDH>\n"
+        + "            <GMF_YHZH>北京银行展览路支行 01090305800120108005804</GMF_YHZH>\n"
+        + "            <KPR>测试test</KPR>\n"
+        + "            <SKR/>\n"
+        + "            <FHR/>\n"
+        + "            <YFP_DM/>\n"
+        + "            <YFP_HM/>\n"
+        + "            <JSHJ>345.00</JSHJ>\n"
+        + "            <HJJE>345.00</HJJE>\n"
+        + "            <HJSE>0.00</HJSE>\n"
+        + "            <BZ/>\n"
+        + "        </COMMON_FPKJ_FPT>\n"
+        + "        <COMMON_FPKJ_XMXXS class=\\\"COMMON_FPKJ_XMXX\\\" size=\\\"1\\\">\n"
+        + "            <COMMON_FPKJ_XMXX>\n"
+        + "                <FPHXZ>0</FPHXZ>\n"
+        + "                <XMMC>豆油2</XMMC>\n"
+        + "                <GGXH/>\n"
+        + "                <SPBM>3060109010000000000</SPBM>\n"
+        + "                <ZXBM>10</ZXBM>\n"
+        + "                <YHZCBS>1</YHZCBS>\n"
+        + "                <LSLBS>1</LSLBS>\n"
+        + "                <ZZSTSGL>超税负3%即征即退</ZZSTSGL>\n"
+        + "                <DW/>\n"
+        + "                <XMSL>1</XMSL>\n"
+        + "                <XMDJ>345</XMDJ>\n"
+        + "                <SE>0.00</SE>\n"
+        + "                <XMJE>345.00</XMJE>\n"
+        + "                <SL>0.00</SL>\n"
+        + "                <KCE/>\n"
+        + "            </COMMON_FPKJ_XMXX>\n"
+        + "        </COMMON_FPKJ_XMXXS>\n"
+        + "    </REQUEST_COMMON_FPKJ>\n"
+        + "</business>\n"
+        + "\", \n"
+        + "        \"fpjz\": \"0\", \n"
+        + "        \"fplx\": \"1\", \n"
+        + "        \"fpqqlsh\": \"1146322763979206656\", \n"
+        + "        \"zsfs\": \"0\"\n"
+        + "    }\n"
+        + "}";
+    String str=Tools.getXML(messageStr);
+    System.out.println(str);
+
+    try {
+      System.out.println(StringToFile.stringFile(str,"E:/yonyou/work/einput/电子发票_1.xml"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+
+  }
 }

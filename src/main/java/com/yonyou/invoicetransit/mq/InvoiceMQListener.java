@@ -74,11 +74,13 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
       if(JSON.toJSONString(mqMessage).contains("<Kp>")){
         //logger.info(ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
         //logger.info(ReturnInvoice.pInvoice(mqMessage));
+
         ReturnInvoice.callBack(ReturnInvoice.pInvoice(mqMessage));
       }else{
         //logger.info(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
-        //logger.info(ReturnInvoice.eInvoice(mqMessage));
-        ReturnInvoice.callBack(ReturnInvoice.eInvoice(mqMessage));
+        logger.info(ReturnInvoice.eInvoice(mqMessage));
+        //logger.info(Tools.getXML(messageStr));
+        //ReturnInvoice.callBack(ReturnInvoice.eInvoice(mqMessage));
       }
 
 

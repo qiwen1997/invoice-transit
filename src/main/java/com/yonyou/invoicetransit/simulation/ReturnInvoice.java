@@ -12,6 +12,7 @@ import com.yonyou.invoicetransit.entity.transit.ResultInvoice;
 import com.yonyou.invoicetransit.tools.RandomCharData;
 import com.yonyou.invoicetransit.tools.Tools;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -22,6 +23,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.util.EntityUtils;
+
 
 /**
  * 生成返回结果
@@ -51,27 +53,46 @@ public class ReturnInvoice {
   }
 
   //生成电子发票需要返回的实体字符串
-  public static String eInvoice(MqMessage mqMessage){
+  public static String eInvoice(MqMessage mqMessage) throws Exception{
 
     MqResult mqResult=new MqResult(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))),
         "AutoEinvoice");
-    MqMessage<MqResult> resultMqMessage=new MqMessage<MqResult>();
+    MqMessage<String> resultMqMessage=new MqMessage<String>();
     mqMessage.getContext().setType("TaxEquipmentResult");
+
+    String randomId=RandomCharData.createRandomCharData(8)+"-"+
+        RandomCharData.createRandomCharData(4)+"-"+
+        RandomCharData.createRandomCharData(4)+"-"+
+        RandomCharData.createRandomCharData(12);
+    mqMessage.getContext().setId(randomId);
     resultMqMessage.setContext(mqMessage.getContext());
-    resultMqMessage.setData(mqResult);
+    resultMqMessage.setData(ReturnInvoice.convertToBase64MqMessage(mqResult));
     return JSON.toJSONString(resultMqMessage);
   }
 
   //生成纸质发票需要返回的实体字符串
-  public static String pInvoice(MqMessage mqMessage){
+  public static String pInvoice(MqMessage mqMessage) throws Exception{
 
     MqResult mqResult=new MqResult(ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))),
         "AutoPaperInvoice");
-    MqMessage<MqResult> resultMqMessage=new MqMessage<MqResult>();
+    MqMessage<String> resultMqMessage=new MqMessage<String>();
     mqMessage.getContext().setType("TaxEquipmentResult");
+
+    String randomId=RandomCharData.createRandomCharData(8)+"-"+
+        RandomCharData.createRandomCharData(4)+"-"+
+        RandomCharData.createRandomCharData(4)+"-"+
+        RandomCharData.createRandomCharData(12);
+    mqMessage.getContext().setId(randomId);
     resultMqMessage.setContext(mqMessage.getContext());
-    resultMqMessage.setData(mqResult);
+    resultMqMessage.setData(ReturnInvoice.convertToBase64MqMessage(mqResult));
     return JSON.toJSONString(resultMqMessage);
+  }
+
+  //把data部分转换成base64
+  public static String convertToBase64MqMessage(MqResult mqResult)throws Exception{
+    String result=JSON.toJSONString(mqResult);
+    String base64= Base64.getEncoder().encodeToString(result.getBytes("GBK"));
+    return base64;
   }
 
   //调用助手消息回传接口

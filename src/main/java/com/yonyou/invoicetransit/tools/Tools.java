@@ -45,4 +45,30 @@ public class Tools {
     //System.out.println(value);
     return value;
   }
+
+  public static String getXML(String json){
+
+    JSONObject obj = (JSONObject) JSONObject.parse(json);
+    // 第一种：使用while遍历方式
+    String value=new String();
+    Iterator<String> iterator = obj.keySet().iterator();
+    while(iterator.hasNext()){
+      String key = iterator.next();
+      if("data".equals(key)) {
+        JSONObject js=(JSONObject) obj.get(key);
+        Iterator<String> iter = js.keySet().iterator();
+        while(iter.hasNext()){
+          String k=iter.next();
+          if("data".equals(k)){
+            value=js.getString(k);
+            break;
+          }
+        }
+      }
+      //System.out.println(value);
+      //System.out.println("key:"+key+"  "+"value:"+(String)obj.get(key));
+    }
+    //System.out.println(value);
+    return value;
+  }
 }
