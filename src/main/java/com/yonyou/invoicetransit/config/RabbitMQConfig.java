@@ -71,6 +71,7 @@ public class RabbitMQConfig {
     }
     //AcknowledgeMode.MANUAL模式需要人为地获取到channel之后调用方法向server发送ack（或消费失败时的nack）信息。
     container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+    container.setExposeListenerChannel(true);
     container.setMaxConcurrentConsumers(1);
     container.setConcurrentConsumers(1);
     container.setMessageListener(messageListener);

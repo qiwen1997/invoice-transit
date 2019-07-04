@@ -71,16 +71,22 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
 
       MqMessage mqMessage = JSON.parseObject(messageStr, MqMessage.class);
 
-      if(JSON.toJSONString(mqMessage).contains("<Kp>")){
+      if(JSON.toJSONString(mqMessage).contains("PDF_GEN_RESULT")) {
+
+      }else if(JSON.toJSONString(mqMessage).contains("<Kp>")){
         //logger.info(ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
         //logger.info(ReturnInvoice.pInvoice(mqMessage));
 
-        ReturnInvoice.callBack(ReturnInvoice.pInvoice(mqMessage));
+        String result = ReturnInvoice.callBack(ReturnInvoice.pInvoice(mqMessage));
+        System.out.println(result);
+        //this.doAck(message, channel);
       }else{
         //logger.info(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
-        logger.info(ReturnInvoice.eInvoice(mqMessage));
+        //logger.info(ReturnInvoice.eInvoice(mqMessage));
         //logger.info(Tools.getXML(messageStr));
-        //ReturnInvoice.callBack(ReturnInvoice.eInvoice(mqMessage));
+        String result=ReturnInvoice.callBack(ReturnInvoice.eInvoice(mqMessage));
+        System.out.println(result);
+        //this.doAck(message, channel);
       }
 
 
@@ -90,7 +96,7 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
       //logger.info(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
       //MqContext context = mqMessage.getContext();
       //String type = context.getType();
-      //logger.info(messageStr);
+      logger.info(messageStr);
        //logger.info(JSON.toJSONString(mqMessage));
      // logger.info("MqContext"+context.toString());
 

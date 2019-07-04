@@ -10,6 +10,7 @@ import com.yonyou.invoicetransit.entity.transit.Business;
 import com.yonyou.invoicetransit.entity.transit.ResponseCommonFpkj;
 import com.yonyou.invoicetransit.entity.transit.ResultInvoice;
 import com.yonyou.invoicetransit.tools.RandomCharData;
+import com.yonyou.invoicetransit.tools.ReviseXml;
 import com.yonyou.invoicetransit.tools.Tools;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -38,9 +39,10 @@ public class ReturnInvoice {
     ResultInvoice resultInvoice=new ResultInvoice();
     resultInvoice.setBusiness(business);
     //Feature.OrderedField保证字段顺序
-    return XMLTransformFacade
+    String s= XMLTransformFacade
         .getXMLStrFromJSONObject
             (JSONObject.parseObject(JSON.toJSONString(resultInvoice), Feature.OrderedField));
+    return ReviseXml.changeEncoding(s);
   }
 
   //纸质发票生成context
@@ -58,15 +60,20 @@ public class ReturnInvoice {
     MqResult mqResult=new MqResult(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))),
         "AutoEinvoice");
     MqMessage<String> resultMqMessage=new MqMessage<String>();
-    mqMessage.getContext().setType("TaxEquipmentResult");
+    resultMqMessage.getContext().setType("TaxEquipmentResult");
 
     String randomId=RandomCharData.createRandomCharData(8)+"-"+
         RandomCharData.createRandomCharData(4)+"-"+
         RandomCharData.createRandomCharData(4)+"-"+
+        RandomCharData.createRandomCharData(4)+"-"+
         RandomCharData.createRandomCharData(12);
-    mqMessage.getContext().setId(randomId);
-    resultMqMessage.setContext(mqMessage.getContext());
+    resultMqMessage.getContext().setId(randomId);
+    resultMqMessage.getContext().setCorpid(mqMessage.getContext().getCorpid());
+    resultMqMessage.getContext().setNsrsbh(mqMessage.getContext().getNsrsbh());
+    resultMqMessage.getContext().setEquipmentCode(mqMessage.getContext().getEquipmentCode());
+    //resultMqMessage.setContext(mqMessage.getContext());
     resultMqMessage.setData(ReturnInvoice.convertToBase64MqMessage(mqResult));
+    System.out.println(JSON.toJSONString(resultMqMessage));
     return JSON.toJSONString(resultMqMessage);
   }
 
@@ -76,14 +83,18 @@ public class ReturnInvoice {
     MqResult mqResult=new MqResult(ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))),
         "AutoPaperInvoice");
     MqMessage<String> resultMqMessage=new MqMessage<String>();
-    mqMessage.getContext().setType("TaxEquipmentResult");
+    resultMqMessage.getContext().setType("TaxEquipmentResult");
 
     String randomId=RandomCharData.createRandomCharData(8)+"-"+
         RandomCharData.createRandomCharData(4)+"-"+
         RandomCharData.createRandomCharData(4)+"-"+
+        RandomCharData.createRandomCharData(4)+"-"+
         RandomCharData.createRandomCharData(12);
-    mqMessage.getContext().setId(randomId);
-    resultMqMessage.setContext(mqMessage.getContext());
+    resultMqMessage.getContext().setId(randomId);
+    resultMqMessage.getContext().setCorpid(mqMessage.getContext().getCorpid());
+    resultMqMessage.getContext().setNsrsbh(mqMessage.getContext().getNsrsbh());
+    resultMqMessage.getContext().setEquipmentCode(mqMessage.getContext().getEquipmentCode());
+    //resultMqMessage.setContext(mqMessage.getContext());
     resultMqMessage.setData(ReturnInvoice.convertToBase64MqMessage(mqResult));
     return JSON.toJSONString(resultMqMessage);
   }
@@ -96,23 +107,24 @@ public class ReturnInvoice {
   }
 
   //调用助手消息回传接口
-  public static void callBack(String json) throws Exception{
+  public static String callBack(String json) throws Exception{
 //    System.setProperty("http.proxyHost", "localhost");
 //    System.setProperty("http.proxyPort", "8888");
 //    System.setProperty("https.proxyHost", "localhost");
 //    System.setProperty("https.proxyPort", "8888");
 
-    String url="http://192.168.52.80/clientmessage/privateapi/clientapp/message";
-    HttpHost proxy = new HttpHost("127.0.0.1", 8888, "http");
-    DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+    String url="http://192.168.52.80/clientmessage/privateapi/clientapp/v2/message";
+//    HttpHost proxy = new HttpHost("127.0.0.1", 8888, "http");
+//    DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+//
+//    HttpClient httpClient = HttpClients.custom().setRoutePlanner(routePlanner).build();
 
-    HttpClient httpClient = HttpClients.custom().setRoutePlanner(routePlanner).build();
-
-    ///HttpClient httpClient = HttpClients.custom().build();
+    HttpClient httpClient = HttpClients.custom().build();
     HttpPost httpPost = new HttpPost(url);
 
     httpPost.addHeader("sign", JwtInnerUtils.sign(null));
     httpPost.addHeader("Content-Type", "application/json");
+    httpPost.addHeader("Accept","application/json, application/xml, text/json, text/x-json, text/javascript, text/xml");
     httpPost.setEntity(new StringEntity(json,"UTF-8"));
     HttpResponse response = httpClient.execute(httpPost);
     String result = "";
@@ -123,7 +135,7 @@ public class ReturnInvoice {
         //System.out.println(result);
       }
     }
-    System.out.println(result);
+    return result;
   }
 
 }

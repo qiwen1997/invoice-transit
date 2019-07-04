@@ -9,6 +9,10 @@ public class MqMessage<T> {
 
   private T data;
 
+  public MqMessage() {
+    this.context=new MqContext();
+  }
+
   public MqContext getContext() {
     return context;
   }

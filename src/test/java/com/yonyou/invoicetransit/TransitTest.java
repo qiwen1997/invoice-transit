@@ -205,7 +205,7 @@ public class TransitTest {
     System.out.println(ReturnInvoice.paperToXML("1145893371939434496"));
   }
 
-  //测试Tools.getXML
+  //测试Tools.getXML,保存电子发票文件
   @Test
   public void getXMLTest(){
     String messageStr="{\n"
@@ -275,12 +275,105 @@ public class TransitTest {
     String str=Tools.getXML(messageStr);
     System.out.println(str);
 
+    String name="电子发票_"+Tools.getFpqqlshJSON(messageStr)+".xml";
     try {
-      System.out.println(StringToFile.stringFile(str,"E:/yonyou/work/einput/电子发票_1.xml"));
+      System.out.println(StringToFile.stringFile(str,"E:/yonyou/work/einput/"+name));
     } catch (Exception e) {
       e.printStackTrace();
     }
+    String result=ReturnInvoice.toXML(Tools.getFpqqlshJSON(messageStr));
+    System.out.println(result);
 
+    String resultName="电子发票_"+Tools.getFpqqlshJSON(messageStr)+"_result.xml";
+    try {
+      System.out.println(StringToFile.stringFile(result,"E:/yonyou/work/eoutput/"+resultName));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  //测试Tools.getXML,保存纸质发票文件
+  @Test
+  public void getXMLTest2(){
+    String messageStr="{\n"
+        + "    \"context\": {\n"
+        + "        \"corpid\": \"1937501a-b06f-4bf6-87d6-d5b515dacd26\", \n"
+        + "        \"equipmentCode\": \"awwq\", \n"
+        + "        \"id\": \"e8d6cf7e-923c-40ff-896b-e7787d70a600\", \n"
+        + "        \"nsrsbh\": \"111222333456111\", \n"
+        + "        \"type\": \"InvoiceApply\"\n"
+        + "    }, \n"
+        + "    \"data\": {\n"
+        + "        \"fpqqlsh\": \"1145893371939434496\", \n"
+        + "        \"data\": \"<?xml version=\\\"1.0\\\" encoding=\\\"GBK\\\"?>\n"
+        + "<Kp>\n"
+        + "    <Version>2.0</Version>\n"
+        + "    <Fpxx>\n"
+        + "        <Zsl>1</Zsl>\n"
+        + "        <Fpsj>\n"
+        + "            <Fp>\n"
+        + "                <Djh>1145893371939434496</Djh>\n"
+        + "                <Gfmc>用友网络科技股份有限公司</Gfmc>\n"
+        + "                <Gfsh>91110000600001760P</Gfsh>\n"
+        + "                <Gfyhzh>北京银行展览路支行 01090305800120108005804</Gfyhzh>\n"
+        + "                <Gfdzdh>北京市海淀区北清路68号 010-86396688</Gfdzdh>\n"
+        + "                <Bz/>\n"
+        + "                <Fhr/>\n"
+        + "                <Skr/>\n"
+        + "                <Spbmbbh>27.0</Spbmbbh>\n"
+        + "                <Hsbz>0</Hsbz>\n"
+        + "                <Spxx>\n"
+        + "                    <Sph>\n"
+        + "                        <Xh>1</Xh>\n"
+        + "                        <Spmc>套刀</Spmc>\n"
+        + "                        <Ggxh/>\n"
+        + "                        <Jldw/>\n"
+        + "                        <Spbm>1060512990000000000</Spbm>\n"
+        + "                        <Qyspbm>30</Qyspbm>\n"
+        + "                        <Syyhzcbz>0</Syyhzcbz>\n"
+        + "                        <Lslbz/>\n"
+        + "                        <Yhzcsm/>\n"
+        + "                        <Kce/>\n"
+        + "                        <Dj>37.6068376068</Dj>\n"
+        + "                        <Sl>4</Sl>\n"
+        + "                        <Je>150.427351</Je>\n"
+        + "                        <Se>25.57</Se>\n"
+        + "                        <Slv>0.17</Slv>\n"
+        + "                    </Sph>\n"
+        + "                </Spxx>\n"
+        + "                <Kpr>测试test</Kpr>\n"
+        + "                <Xfmc>测试1</Xfmc>\n"
+        + "                <Xfsh>111222333456111</Xfsh>\n"
+        + "                <Xfdzdh>海淀122 89891111</Xfdzdh>\n"
+        + "                <Xfyhzh>七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十 一</Xfyhzh>\n"
+        + "            </Fp>\n"
+        + "        </Fpsj>\n"
+        + "    </Fpxx>\n"
+        + "</Kp>\n"
+        + "\", \n"
+        + "        \"fplx\": \"3\", \n"
+        + "        \"fpjz\": \"1\", \n"
+        + "        \"zsfs\": \"0\"\n"
+        + "    }\n"
+        + "}\n";
+    String str=Tools.getXML(messageStr);
+    System.out.println(str);
+
+    String name="纸质发票_"+Tools.getFpqqlshJSON(messageStr)+".xml";
+    try {
+      System.out.println(StringToFile.stringFile(str,"E:/yonyou/work/pinput/"+name));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    String result=ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(messageStr));
+    System.out.println(result);
+
+    String resultName="纸质发票_"+Tools.getFpqqlshJSON(messageStr)+"_result.xml";
+    try {
+      System.out.println(StringToFile.stringFile(result,"E:/yonyou/work/poutput/"+resultName));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
   }
 }
