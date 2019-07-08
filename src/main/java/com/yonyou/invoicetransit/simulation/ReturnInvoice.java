@@ -16,13 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.util.EntityUtils;
 
 
@@ -94,7 +92,6 @@ public class ReturnInvoice {
     resultMqMessage.getContext().setCorpid(mqMessage.getContext().getCorpid());
     resultMqMessage.getContext().setNsrsbh(mqMessage.getContext().getNsrsbh());
     resultMqMessage.getContext().setEquipmentCode(mqMessage.getContext().getEquipmentCode());
-    //resultMqMessage.setContext(mqMessage.getContext());
     resultMqMessage.setData(ReturnInvoice.convertToBase64MqMessage(mqResult));
     return JSON.toJSONString(resultMqMessage);
   }
@@ -132,7 +129,6 @@ public class ReturnInvoice {
       HttpEntity resEntity = response.getEntity();
       if (resEntity != null) {
         result = EntityUtils.toString(resEntity, "UTF-8");
-        //System.out.println(result);
       }
     }
     return result;

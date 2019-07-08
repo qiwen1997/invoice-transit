@@ -1,5 +1,8 @@
 package com.yonyou.invoicetransit.tools;
 
+import com.alibaba.fastjson.JSON;
+import com.yonyou.invoicetransit.entity.MqMessage;
+import com.yonyou.invoicetransit.simulation.ReturnInvoice;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -58,4 +61,43 @@ public class StringToFile {
     }
     return flag;
   }
+  //保存电子发票
+  public static void eSave(MqMessage mqMessage,String inPath,String outPath){
+    String xml= Tools.getXML(JSON.toJSONString(mqMessage));
+
+    String name="电子发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+".xml";
+    try {
+      StringToFile.stringFile(xml,inPath+name);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    String resultXml= ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
+
+    String resultName="电子发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+"_result.xml";
+    try {
+      StringToFile.stringFile(resultXml,outPath+resultName);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  //保存纸质发票
+  public static void pSave(MqMessage mqMessage,String inPath,String outPath){
+    String xml=Tools.getXML(JSON.toJSONString(mqMessage));
+
+    String name="纸质发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+".xml";
+    try {
+      StringToFile.stringFile(xml,inPath+name);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    String resultXml=ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
+
+    String resultName="纸质发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+"_模拟开票结果.xml";
+    try {
+      StringToFile.stringFile(resultXml,outPath+resultName);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
 }

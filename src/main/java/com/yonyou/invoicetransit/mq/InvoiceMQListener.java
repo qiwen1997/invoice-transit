@@ -7,8 +7,8 @@ import com.google.common.cache.LoadingCache;
 import com.rabbitmq.client.Channel;
 import com.yonyou.invoicetransit.entity.MqMessage;
 import com.yonyou.invoicetransit.simulation.ReturnInvoice;
-import com.yonyou.invoicetransit.tools.Tools;
 import com.yonyou.invoicetransit.exception.BusinessRuntimeException;
+import com.yonyou.invoicetransit.tools.StringToFile;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
@@ -71,34 +71,25 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
 
       MqMessage mqMessage = JSON.parseObject(messageStr, MqMessage.class);
 
+
       if(JSON.toJSONString(mqMessage).contains("PDF_GEN_RESULT")) {
 
       }else if(JSON.toJSONString(mqMessage).contains("<Kp>")){
-        //logger.info(ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
-        //logger.info(ReturnInvoice.pInvoice(mqMessage));
-
         String result = ReturnInvoice.callBack(ReturnInvoice.pInvoice(mqMessage));
-        System.out.println(result);
-        //this.doAck(message, channel);
+        logger.info(result);
+        if(result.contains("0000")) {
+          StringToFile.pSave(mqMessage, "E:/yonyou/work/pinput/", "E:/yonyou/work/poutput/");
+        }
       }else{
-        //logger.info(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
-        //logger.info(ReturnInvoice.eInvoice(mqMessage));
-        //logger.info(Tools.getXML(messageStr));
         String result=ReturnInvoice.callBack(ReturnInvoice.eInvoice(mqMessage));
-        System.out.println(result);
-        //this.doAck(message, channel);
+        logger.info(result);
+        if(result.contains("0000")) {
+          StringToFile.eSave(mqMessage, "E:/yonyou/work/einput/", "E:/yonyou/work/eoutput/");
+        }
       }
+      logger.info(JSON.toJSONString(message));
+      logger.info(JSON.toJSONString(mqMessage));
 
-
-
-
-      //logger.info(JSON.toJSONString(message));
-      //logger.info(ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))));
-      //MqContext context = mqMessage.getContext();
-      //String type = context.getType();
-      logger.info(messageStr);
-       //logger.info(JSON.toJSONString(mqMessage));
-     // logger.info("MqContext"+context.toString());
 
     } catch (Exception ex) {
       isAck = true;
@@ -148,7 +139,6 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
       countCache.put(key, ++count);
     } else {
       countCache.invalidate(key);
-//      this.rabbitMQMessageSender.sendClientErrorMsg(message);
       doAck(message, channel);
       return false;
     }

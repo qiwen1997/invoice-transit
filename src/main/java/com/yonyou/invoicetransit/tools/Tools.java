@@ -39,10 +39,7 @@ public class Tools {
           }
         }
       }
-      //System.out.println(value);
-      //System.out.println("key:"+key+"  "+"value:"+(String)obj.get(key));
     }
-    //System.out.println(value);
     return value;
   }
 
@@ -65,10 +62,7 @@ public class Tools {
           }
         }
       }
-      //System.out.println(value);
-      //System.out.println("key:"+key+"  "+"value:"+(String)obj.get(key));
     }
-    //System.out.println(value);
     return value;
   }
 }
