@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,6 +28,18 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
   private static final Logger logger = LoggerFactory.getLogger(InvoiceMQListener.class);
   private static final String CHARSET_GBK = "gbk";
   private static final String MESSAGE_PREFIX = "MQListener:";
+
+  @Value("${invoice.save.einput}")
+  private String eInPut;
+
+  @Value("${invoice.save.eoutput}")
+  private String eOutPut;
+
+  @Value("${invoice.save.pinput}")
+  private String pInPut;
+
+  @Value("${invoice.save.poutput}")
+  private String pOutPut;
   //LoadingCache本地缓存
   //CacheBuilder.maximumSize(long)：这个方法规定缓存项的数目不超过固定值
   // (其实你可以理解为一个Map的最大容量)，尝试回收最近没有使用或总体上很少使用的缓存项
@@ -78,13 +91,13 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
         String result = ReturnInvoice.callBack(ReturnInvoice.pInvoice(mqMessage));
         logger.info(result);
         if(result.contains("0000")) {
-          StringToFile.pSave(mqMessage, "E:/yonyou/work/pinput/", "E:/yonyou/work/poutput/");
+          StringToFile.pSave(mqMessage, pInPut, pOutPut);
         }
       }else{
         String result=ReturnInvoice.callBack(ReturnInvoice.eInvoice(mqMessage));
         logger.info(result);
         if(result.contains("0000")) {
-          StringToFile.eSave(mqMessage, "E:/yonyou/work/einput/", "E:/yonyou/work/eoutput/");
+          StringToFile.eSave(mqMessage, eInPut, eOutPut);
         }
       }
       logger.info(JSON.toJSONString(message));

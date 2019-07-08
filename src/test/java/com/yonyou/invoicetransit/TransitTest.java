@@ -12,7 +12,9 @@ import com.yonyou.invoicetransit.simulation.JwtInnerUtils;
 import com.yonyou.invoicetransit.simulation.ReturnInvoice;
 import com.yonyou.invoicetransit.tools.RandomCharData;
 import com.yonyou.invoicetransit.tools.StringToFile;
+import com.yonyou.invoicetransit.tools.TimedTask;
 import com.yonyou.invoicetransit.tools.Tools;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.junit.Test;
@@ -21,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -530,6 +533,15 @@ public class TransitTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+  //测试超时文件删除方法
+  @Test
+  public void overTimeDeleteTest(){
+
+    String path="E:/yonyou/work/einput";
+    File file=new File(path);
+    TimedTask timedTask=new TimedTask();
+    timedTask.overTimeDelete(file);
   }
 
 }

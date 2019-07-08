@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 
 /**
  * 字符串转换成文件
@@ -99,5 +100,6 @@ public class StringToFile {
       e.printStackTrace();
     }
   }
+
 
 }

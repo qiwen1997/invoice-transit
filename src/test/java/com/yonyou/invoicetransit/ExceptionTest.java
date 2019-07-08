@@ -3,12 +3,53 @@ package com.yonyou.invoicetransit;
 import com.yonyou.invoicetransit.exception.BusinessRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ExceptionTest {
+
+  @Value("${invoice.save.einput}")
+  private String eInPut;
+
+  @Value("${invoice.save.eoutput}")
+  private String eOutPut;
+
+  @Value("${invoice.save.pinput}")
+  private String pInPut;
+
+  @Value("${invoice.save.poutput}")
+  private String pOutPut;
+
+  @Value("${save.time.day}")
+  private Long day;
+
+  @Value("${save.time.hour}")
+  private Long hour;
+
+  @Value("${save.time.minute}")
+  private Long minute;
+
+  @Value("${save.time.second}")
+  private Long second;
+
+  @Value("${save.time.mmcond}")
+  private Long mmcond;
+  @Test
+  public void valueTest(){
+    System.out.println(eInPut);
+    System.out.println(eOutPut);
+    System.out.println(pInPut);
+    System.out.println(pOutPut);
+    System.out.println(day);
+    System.out.println(hour);
+    System.out.println(minute);
+    System.out.println(second);
+    System.out.println(mmcond);
+  }
+
 
   //测试异常
   @Test
