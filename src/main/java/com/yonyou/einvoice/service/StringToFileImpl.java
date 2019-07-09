@@ -1,22 +1,29 @@
-package com.yonyou.invoicetransit.tools;
+package com.yonyou.einvoice.service;
 
 import com.alibaba.fastjson.JSON;
-import com.yonyou.invoicetransit.entity.MqMessage;
-import com.yonyou.invoicetransit.simulation.ReturnInvoice;
+import com.yonyou.einvoice.entity.MqMessage;
+import com.yonyou.einvoice.util.Tools;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 字符串转换成文件
  */
-public class StringToFile {
+@Service
+public class StringToFileImpl implements StringToFile{
+
+  @Autowired
+  private ReturnInvoice returnInvoice;
+
+  @Autowired
+  private StringToFile stringToFile;
 
   /**
    * 将字符串写入指定文件(当指定的父路径中文件夹不存在时，会最大限度去创建，以保证保存成功！)
@@ -25,7 +32,8 @@ public class StringToFile {
    * @param filePath 文件路径
    * @return 成功标记
    */
-  public static boolean stringFile(String res, String filePath) throws Exception {
+  @Override
+  public  boolean stringFile(String res, String filePath) throws Exception {
     boolean flag = true;
     BufferedReader reader=null;
     try {
@@ -63,39 +71,41 @@ public class StringToFile {
     return flag;
   }
   //保存电子发票
-  public static void eSave(MqMessage mqMessage,String inPath,String outPath){
+  @Override
+  public void eSave(MqMessage mqMessage,String inPath,String outPath){
     String xml= Tools.getXML(JSON.toJSONString(mqMessage));
 
     String name="电子发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+".xml";
     try {
-      StringToFile.stringFile(xml,inPath+name);
+      stringToFile.stringFile(xml,inPath+name);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    String resultXml= ReturnInvoice.toXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
+    String resultXml= returnInvoice.electronToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
 
     String resultName="电子发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+"_result.xml";
     try {
-      StringToFile.stringFile(resultXml,outPath+resultName);
+      stringToFile.stringFile(resultXml,outPath+resultName);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
   //保存纸质发票
-  public static void pSave(MqMessage mqMessage,String inPath,String outPath){
+  @Override
+  public  void pSave(MqMessage mqMessage,String inPath,String outPath){
     String xml=Tools.getXML(JSON.toJSONString(mqMessage));
 
     String name="纸质发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+".xml";
     try {
-      StringToFile.stringFile(xml,inPath+name);
+      stringToFile.stringFile(xml,inPath+name);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    String resultXml=ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
+    String resultXml= returnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
 
     String resultName="纸质发票_"+Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage))+"_模拟开票结果.xml";
     try {
-      StringToFile.stringFile(resultXml,outPath+resultName);
+      stringToFile.stringFile(resultXml,outPath+resultName);
     } catch (Exception e) {
       e.printStackTrace();
     }

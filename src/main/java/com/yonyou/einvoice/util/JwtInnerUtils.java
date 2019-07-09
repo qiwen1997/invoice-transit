@@ -1,17 +1,13 @@
 /**
  * 
  */
-package com.yonyou.invoicetransit.simulation;
+package com.yonyou.einvoice.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
 import io.jsonwebtoken.impl.compression.CompressionCodecs;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * piaoeda内部各模块restful服务调用签名、验签工具类

@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.simulation;
+package com.yonyou.einvoice.util;
 
 import java.util.HashMap;
 import java.util.Map;

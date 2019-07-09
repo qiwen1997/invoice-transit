@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.entity.transit;
+package com.yonyou.einvoice.entity.transit;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

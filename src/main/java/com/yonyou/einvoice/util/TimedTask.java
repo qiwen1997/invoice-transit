@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.tools;
+package com.yonyou.einvoice.util;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -67,7 +67,9 @@ public class TimedTask {
   public void overTimeDelete(File file) {
     //获得文件里面所有的文件及文件夹
     File[] files = file.listFiles();
-
+    if(files==null||files.length==0){
+      return;
+    }
     //遍历files里面的所有文件及文件夹
     for(File f : files) {
 

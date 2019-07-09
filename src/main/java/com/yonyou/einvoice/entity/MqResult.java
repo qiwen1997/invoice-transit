@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.entity;
+package com.yonyou.einvoice.entity;
 
 /**
  * 返回消息实体

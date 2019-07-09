@@ -1,8 +1,8 @@
-package com.yonyou.invoicetransit.tools;
+package com.yonyou.einvoice.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.yonyou.invoicetransit.entity.MqMessage;
+import com.yonyou.einvoice.entity.MqMessage;
 import java.util.Iterator;
 import org.apache.commons.lang3.StringUtils;
 

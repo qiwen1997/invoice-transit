@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.converter;
+package com.yonyou.einvoice.converter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

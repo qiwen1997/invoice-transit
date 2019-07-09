@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.entity;
+package com.yonyou.einvoice.entity;
 
 /**
  * Created by yangchuanhua on 2017/11/23.

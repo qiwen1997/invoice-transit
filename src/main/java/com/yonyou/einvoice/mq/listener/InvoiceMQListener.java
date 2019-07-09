@@ -1,20 +1,22 @@
-package com.yonyou.invoicetransit.mq;
+package com.yonyou.einvoice.mq.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.rabbitmq.client.Channel;
-import com.yonyou.invoicetransit.entity.MqMessage;
-import com.yonyou.invoicetransit.simulation.ReturnInvoice;
-import com.yonyou.invoicetransit.exception.BusinessRuntimeException;
-import com.yonyou.invoicetransit.tools.StringToFile;
+import com.yonyou.einvoice.service.ReturnInvoice;
+import com.yonyou.einvoice.service.StringToFile;
+import com.yonyou.einvoice.service.StringToFileImpl;
+import com.yonyou.einvoice.entity.MqMessage;
+import com.yonyou.einvoice.exception.BusinessRuntimeException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class InvoiceMQListener implements ChannelAwareMessageListener {
 
+  @Autowired
+  private ReturnInvoice returnInvoice;
+
+  @Autowired
+  private StringToFile stringToFile;
 
   private static final Logger logger = LoggerFactory.getLogger(InvoiceMQListener.class);
   private static final String CHARSET_GBK = "gbk";
@@ -86,18 +93,20 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
 
 
       if(JSON.toJSONString(mqMessage).contains("PDF_GEN_RESULT")) {
+        return;
+      }
 
-      }else if(JSON.toJSONString(mqMessage).contains("<Kp>")){
-        String result = ReturnInvoice.callBack(ReturnInvoice.pInvoice(mqMessage));
+      if(JSON.toJSONString(mqMessage).contains("<Kp>")){
+        String result = returnInvoice.callBack(returnInvoice.pInvoice(mqMessage));
         logger.info(result);
         if(result.contains("0000")) {
-          StringToFile.pSave(mqMessage, pInPut, pOutPut);
+          stringToFile.pSave(mqMessage, pInPut, pOutPut);
         }
       }else{
-        String result=ReturnInvoice.callBack(ReturnInvoice.eInvoice(mqMessage));
+        String result= returnInvoice.callBack(returnInvoice.eInvoice(mqMessage));
         logger.info(result);
         if(result.contains("0000")) {
-          StringToFile.eSave(mqMessage, eInPut, eOutPut);
+          stringToFile.eSave(mqMessage, eInPut, eOutPut);
         }
       }
       logger.info(JSON.toJSONString(message));

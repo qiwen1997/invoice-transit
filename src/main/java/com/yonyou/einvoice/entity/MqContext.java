@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.yonyou.invoicetransit.entity;
+package com.yonyou.einvoice.entity;
 
 import java.util.UUID;
 

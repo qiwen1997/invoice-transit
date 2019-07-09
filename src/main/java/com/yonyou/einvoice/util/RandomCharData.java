@@ -1,7 +1,6 @@
-package com.yonyou.invoicetransit.tools;
+package com.yonyou.einvoice.util;
 
 import java.util.Random;
-import org.springframework.stereotype.Component;
 
 /**
  * 随机生成数字工具类
@@ -35,6 +34,10 @@ public class RandomCharData {
           data=randdata.nextInt(26)+97;//保证只会产生97~122之间的整数
           sb.append((char)data);
           break;
+          default:
+            data=randdata.nextInt(10);//仅仅会生成0~9
+            sb.append(data);
+            break;
       }
     }
     String result=sb.toString();

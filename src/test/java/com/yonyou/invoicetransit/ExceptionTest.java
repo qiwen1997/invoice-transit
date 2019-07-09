@@ -1,14 +1,17 @@
 package com.yonyou.invoicetransit;
 
-import com.yonyou.invoicetransit.exception.BusinessRuntimeException;
+import com.yonyou.einvoice.InvoiceTransitApplication;
+import com.yonyou.einvoice.exception.BusinessRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = InvoiceTransitApplication.class)
+@WebAppConfiguration
 public class ExceptionTest {
 
   @Value("${invoice.save.einput}")

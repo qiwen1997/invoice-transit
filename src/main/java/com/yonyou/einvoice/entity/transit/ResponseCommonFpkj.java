@@ -1,10 +1,9 @@
-package com.yonyou.invoicetransit.entity.transit;
+package com.yonyou.einvoice.entity.transit;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.yonyou.invoicetransit.tools.RandomCharData;
+import com.yonyou.einvoice.util.RandomCharData;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 返回结果中装载数据的实体

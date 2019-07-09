@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit.tools;
+package com.yonyou.einvoice.util;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -13,11 +13,14 @@ public class ReviseXml {
     Document doc = null;
     try {
       doc = DocumentHelper.parseText(strXML);
+      doc.setXMLEncoding("GBK");
+      return doc.asXML();
     } catch (DocumentException e) {
       e.printStackTrace();
     }
-    doc.setXMLEncoding("GBK");
-    return doc.asXML();
+   // doc.setXMLEncoding("GBK");
+    //return doc.asXML();
+    return null;
   }
 
 }

@@ -1,7 +1,7 @@
-package com.yonyou.invoicetransit.config;
+package com.yonyou.einvoice.config;
 
-import com.yonyou.invoicetransit.converter.FastJsonMessageConverter;
-import com.yonyou.invoicetransit.mq.InvoiceMQListener;
+import com.yonyou.einvoice.converter.FastJsonMessageConverter;
+import com.yonyou.einvoice.mq.listener.InvoiceMQListener;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

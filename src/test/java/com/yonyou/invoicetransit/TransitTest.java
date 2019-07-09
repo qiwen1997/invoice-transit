@@ -4,16 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.pkuliuqiang.XMLTransformFacade;
-import com.yonyou.invoicetransit.entity.MqMessage;
-import com.yonyou.invoicetransit.entity.transit.Business;
-import com.yonyou.invoicetransit.entity.transit.ResponseCommonFpkj;
-import com.yonyou.invoicetransit.entity.transit.ResultInvoice;
-import com.yonyou.invoicetransit.simulation.JwtInnerUtils;
-import com.yonyou.invoicetransit.simulation.ReturnInvoice;
-import com.yonyou.invoicetransit.tools.RandomCharData;
-import com.yonyou.invoicetransit.tools.StringToFile;
-import com.yonyou.invoicetransit.tools.TimedTask;
-import com.yonyou.invoicetransit.tools.Tools;
+import com.yonyou.einvoice.InvoiceTransitApplication;
+import com.yonyou.einvoice.entity.MqMessage;
+import com.yonyou.einvoice.entity.transit.Business;
+import com.yonyou.einvoice.entity.transit.ResponseCommonFpkj;
+import com.yonyou.einvoice.entity.transit.ResultInvoice;
+import com.yonyou.einvoice.service.ReturnInvoice;
+import com.yonyou.einvoice.service.ReturnInvoiceImpl;
+import com.yonyou.einvoice.service.StringToFile;
+import com.yonyou.einvoice.util.JwtInnerUtils;
+import com.yonyou.einvoice.util.RandomCharData;
+import com.yonyou.einvoice.service.StringToFileImpl;
+import com.yonyou.einvoice.util.TimedTask;
+import com.yonyou.einvoice.util.Tools;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,16 +24,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = InvoiceTransitApplication.class)
+@WebAppConfiguration
 public class TransitTest {
 
   private static final Logger log=LoggerFactory.getLogger(TransitTest.class);
 
+  @Autowired
+  private ReturnInvoice returnInvoice;
+
+  @Autowired
+  private StringToFile stringToFile;
   /**
    * 数据模拟开票
    */
@@ -64,7 +74,7 @@ public class TransitTest {
 
     //JSONObject retObj = new JSONObject(true);
     //Feature.OrderedField保证字段顺序
-    System.out.println(ReturnInvoice.toXML("1133929406704685056"));
+    System.out.println(returnInvoice.electronToXML("1133929406704685056"));
   }
 
   /**
@@ -205,8 +215,8 @@ public class TransitTest {
 
   @Test
   public void paperTest(){
-    //ReturnInvoice.paperToXML("1145893371939434496");
-    System.out.println(ReturnInvoice.paperToXML("1145893371939434496"));
+    //returnInvoice.paperToXML("1145893371939434496");
+    System.out.println(returnInvoice.paperToXML("1145893371939434496"));
   }
 
   //测试Tools.getXML,保存电子发票文件
@@ -281,16 +291,16 @@ public class TransitTest {
 
     String name="电子发票_"+Tools.getFpqqlshJSON(messageStr)+".xml";
     try {
-      System.out.println(StringToFile.stringFile(str,"E:/yonyou/work/einput/"+name));
+      System.out.println(stringToFile.stringFile(str,"E:/yonyou/work/einput/"+name));
     } catch (Exception e) {
       e.printStackTrace();
     }
-    String result=ReturnInvoice.toXML(Tools.getFpqqlshJSON(messageStr));
+    String result= returnInvoice.electronToXML(Tools.getFpqqlshJSON(messageStr));
     System.out.println(result);
 
     String resultName="电子发票_"+Tools.getFpqqlshJSON(messageStr)+"_result.xml";
     try {
-      System.out.println(StringToFile.stringFile(result,"E:/yonyou/work/eoutput/"+resultName));
+      System.out.println(stringToFile.stringFile(result,"E:/yonyou/work/eoutput/"+resultName));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -365,16 +375,16 @@ public class TransitTest {
 
     String name="纸质发票_"+Tools.getFpqqlshJSON(messageStr)+".xml";
     try {
-      System.out.println(StringToFile.stringFile(str,"E:/yonyou/work/pinput/"+name));
+      System.out.println(stringToFile.stringFile(str,"E:/yonyou/work/pinput/"+name));
     } catch (Exception e) {
       e.printStackTrace();
     }
-    String result=ReturnInvoice.paperToXML(Tools.getFpqqlshJSON(messageStr));
+    String result= returnInvoice.paperToXML(Tools.getFpqqlshJSON(messageStr));
     System.out.println(result);
 
     String resultName="纸质发票_"+Tools.getFpqqlshJSON(messageStr)+"_result.xml";
     try {
-      System.out.println(StringToFile.stringFile(result,"E:/yonyou/work/poutput/"+resultName));
+      System.out.println(stringToFile.stringFile(result,"E:/yonyou/work/poutput/"+resultName));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -457,7 +467,7 @@ public class TransitTest {
         + "}";
     MqMessage mqMessage = JSON.parseObject(str, MqMessage.class);
     try {
-      System.out.println(ReturnInvoice.eInvoice(mqMessage));
+      System.out.println(returnInvoice.eInvoice(mqMessage));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -529,7 +539,7 @@ public class TransitTest {
         + "}";
     MqMessage mqMessage = JSON.parseObject(str, MqMessage.class);
     try {
-      System.out.println(ReturnInvoice.pInvoice(mqMessage));
+      System.out.println(returnInvoice.pInvoice(mqMessage));
     } catch (Exception e) {
       e.printStackTrace();
     }
