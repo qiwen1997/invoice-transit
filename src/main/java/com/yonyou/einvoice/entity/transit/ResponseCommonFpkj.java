@@ -176,4 +176,98 @@ public class ResponseCommonFpkj {
   public void setReturnMsg(String returnMsg) {
     this.returnMsg = returnMsg;
   }
+
+  public static Builder create(){
+    return new Builder();
+  }
+
+  public ResponseCommonFpkj(Builder builder){
+    this.fpqqlsh=builder.fpqqlsh;
+    this.jqbh=builder.jqbh;
+    this.fpdm=builder.fpdm;
+    this.fphm=builder.fphm;
+    this.kprq=builder.kprq;
+    this.fpmw=builder.fpmw;
+    this.jym=builder.jym;
+    this.ewm=builder.ewm;
+    this.bz=builder.bz;
+    this.returnCode=builder.returnCode;
+    this.returnMsg=builder.returnMsg;
+  }
+
+  public static class Builder{
+
+    private String fpqqlsh="";
+    private String jqbh=RandomCharData.createData(12);
+    private String fpdm=RandomCharData.createFPDM();
+    private String fphm=RandomCharData.createData(8);
+    private String kprq;
+    private String fpmw=FPMW;
+    private String jym=RandomCharData.createData(20);
+    private String ewm="";
+    private String bz="";
+    private String returnCode="0000";
+    private String returnMsg="发票开具成功";
+
+    public ResponseCommonFpkj build(){
+      SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+      this.kprq=df.format(new Date());
+      return new ResponseCommonFpkj(this);
+    }
+
+    public Builder setFpqqlsh(String fpqqlsh) {
+      this.fpqqlsh = fpqqlsh;
+      return this;
+    }
+
+    public Builder setJqbh(String jqbh) {
+      this.jqbh = jqbh;
+      return this;
+    }
+
+    public Builder setFpdm(String fpdm) {
+      this.fpdm = fpdm;
+      return this;
+    }
+
+    public Builder setFphm(String fphm) {
+      this.fphm = fphm;
+      return this;
+    }
+
+    public Builder setKprq(String kprq) {
+      this.kprq = kprq;
+      return this;
+    }
+
+    public Builder setFpmw(String fpmw) {
+      this.fpmw = fpmw;
+      return this;
+    }
+
+    public Builder setJym(String jym) {
+      this.jym = jym;
+      return this;
+    }
+
+    public Builder setEwm(String ewm) {
+      this.ewm = ewm;
+      return this;
+    }
+
+    public Builder setBz(String bz) {
+      this.bz = bz;
+      return this;
+    }
+
+    public Builder setReturnCode(String returnCode) {
+      this.returnCode = returnCode;
+      return this;
+    }
+
+    public Builder setReturnMsg(String returnMsg) {
+      this.returnMsg = returnMsg;
+      return this;
+    }
+  }
 }

@@ -1,20 +1,17 @@
-package com.yonyou.invoicetransit;
+package com.yonyou.einvoice;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.pkuliuqiang.XMLTransformFacade;
-import com.yonyou.einvoice.InvoiceTransitApplication;
 import com.yonyou.einvoice.entity.MqMessage;
 import com.yonyou.einvoice.entity.transit.Business;
 import com.yonyou.einvoice.entity.transit.ResponseCommonFpkj;
 import com.yonyou.einvoice.entity.transit.ResultInvoice;
 import com.yonyou.einvoice.service.ReturnInvoice;
-import com.yonyou.einvoice.service.ReturnInvoiceImpl;
 import com.yonyou.einvoice.service.StringToFile;
 import com.yonyou.einvoice.util.JwtInnerUtils;
 import com.yonyou.einvoice.util.RandomCharData;
-import com.yonyou.einvoice.service.StringToFileImpl;
 import com.yonyou.einvoice.util.TimedTask;
 import com.yonyou.einvoice.util.Tools;
 import java.io.File;
@@ -45,7 +42,7 @@ public class TransitTest {
    * 数据模拟开票
    */
   @Test
-  public void DataTest(){
+  public void dataTest(){
     ResponseCommonFpkj responseCommonFpkj=new ResponseCommonFpkj("1133929406704685056");
     Business business=new Business();
     business.setResponseCommonFpkj(responseCommonFpkj);
@@ -63,7 +60,7 @@ public class TransitTest {
    * 数据模拟开票
    */
   @Test
-  public void DataTest2(){
+  public void dataTest2(){
     ResponseCommonFpkj responseCommonFpkj=new ResponseCommonFpkj();
     responseCommonFpkj.setFpqqlsh("1133929406704685056");
     Business business=new Business();
@@ -81,7 +78,7 @@ public class TransitTest {
    * 测试生成随机数方法
    */
   @Test
-  public void TestRandom(){
+  public void testRandom(){
 
     log.info(RandomCharData.createFPDM());
     log.info(RandomCharData.createData(12));
@@ -544,14 +541,21 @@ public class TransitTest {
       e.printStackTrace();
     }
   }
+  @Autowired
+  TimedTask timedTask;
   //测试超时文件删除方法
   @Test
-  public void overTimeDeleteTest(){
+  public void overTimeDeleteTest()throws Exception{
 
     String path="E:/yonyou/work/einput";
     File file=new File(path);
-    TimedTask timedTask=new TimedTask();
     timedTask.overTimeDelete(file);
+  }
+
+  @Test
+  public void builderTest(){
+    ResponseCommonFpkj responseCommonFpkj=ResponseCommonFpkj.create().setFpqqlsh("233333").build();
+    System.out.println(JSON.toJSONString(responseCommonFpkj));
   }
 
 }

@@ -46,7 +46,7 @@ public class TimedTask {
   private Long mmcond;
 
   @Scheduled(cron="0 0/1 * * * ? ")
-  public void configureTask(){
+  public void configureTask()throws Exception{
     File fileEIn=new File(eInPut);
     logger.info("静态定时任务时间："+ LocalDateTime.now()+"----删除输入电子发票---文件地址："+eInPut);
     overTimeDelete(fileEIn);
@@ -64,7 +64,7 @@ public class TimedTask {
     overTimeDelete(filePOut);
   }
   //保存时间超过规定时间的文件删除
-  public void overTimeDelete(File file) {
+  public void overTimeDelete(File file) throws Exception{
     //获得文件里面所有的文件及文件夹
     File[] files = file.listFiles();
     if(files==null||files.length==0){
@@ -98,7 +98,7 @@ public class TimedTask {
       String formatTime = "";
 
       if(diffen >= thDay) {
-        absFile.delete();
+        boolean b=absFile.delete();
         formatTime = sdf.format(System.currentTimeMillis());
         logger.info("删除该文件的时间是：" + "\t"+formatTime+"\t" + "\t删除的文件是：" + absFile.getAbsolutePath());
         if(absFile.isDirectory()) {

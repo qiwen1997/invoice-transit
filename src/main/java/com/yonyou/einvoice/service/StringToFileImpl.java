@@ -36,10 +36,10 @@ public class StringToFileImpl implements StringToFile{
   public  boolean stringFile(String res, String filePath) throws Exception {
     boolean flag = true;
     BufferedReader reader=null;
-    try {
+
       File distFile = new File(filePath);
       if (!distFile.getParentFile().exists()) {
-        distFile.getParentFile().mkdirs();
+        boolean b=distFile.getParentFile().mkdirs();
       }
       //InputStreamReader inStream = new InputStreamReader(new StringReader(str), "GBK");
 
@@ -55,17 +55,13 @@ public class StringToFileImpl implements StringToFile{
       }
       reader.close();
       writer.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-      flag = false;
-      return flag;
-    } finally {
+
       if (reader != null) {
         try {
           reader.close();
         } catch (IOException e) {
           e.printStackTrace();
-        }
+
       }
     }
     return flag;

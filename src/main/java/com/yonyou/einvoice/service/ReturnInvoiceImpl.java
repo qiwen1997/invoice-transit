@@ -39,7 +39,7 @@ public class ReturnInvoiceImpl implements ReturnInvoice{
   //电子发票生成context
   @Override
   public  String electronToXML(String fpqqlsh){
-    ResponseCommonFpkj responseCommonFpkj=new ResponseCommonFpkj(fpqqlsh);
+    ResponseCommonFpkj responseCommonFpkj=ResponseCommonFpkj.create().setFpqqlsh(fpqqlsh).build();
     Business business=new Business();
     business.setResponseCommonFpkj(responseCommonFpkj);
     ResultInvoice resultInvoice=new ResultInvoice();
@@ -84,7 +84,6 @@ public class ReturnInvoiceImpl implements ReturnInvoice{
     resultMqMessage.getContext().setEquipmentCode(mqMessage.getContext().getEquipmentCode());
     //resultMqMessage.setContext(mqMessage.getContext());
     resultMqMessage.setData(returnInvoice.convertToBase64MqMessage(mqResult));
-    System.out.println(JSON.toJSONString(resultMqMessage));
     return JSON.toJSONString(resultMqMessage);
   }
 
@@ -119,38 +118,6 @@ public class ReturnInvoiceImpl implements ReturnInvoice{
   }
 
   //调用助手消息回传接口
-//  @Override
-//  public  String callBack(String json) throws Exception{
-////    System.setProperty("http.proxyHost", "localhost");
-////    System.setProperty("http.proxyPort", "8888");
-////    System.setProperty("https.proxyHost", "localhost");
-////    System.setProperty("https.proxyPort", "8888");
-//
-//    String url="http://192.168.52.80/clientmessage/privateapi/clientapp/v2/message";
-////    HttpHost proxy = new HttpHost("127.0.0.1", 8888, "http");
-////    DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
-////
-////    HttpClient httpClient = HttpClients.custom().setRoutePlanner(routePlanner).build();
-//
-//    HttpClient httpClient = HttpClients.custom().build();
-//    HttpPost httpPost = new HttpPost(url);
-//
-//    httpPost.addHeader("sign", JwtInnerUtils.sign(null));
-//    httpPost.addHeader("Content-Type", "application/json");
-//    httpPost.addHeader("Accept","application/json, application/xml, text/json, text/x-json, text/javascript, text/xml");
-//    httpPost.setEntity(new StringEntity(json,"UTF-8"));
-//    HttpResponse response = httpClient.execute(httpPost);
-//    String result = "";
-//    if (response != null) {
-//      HttpEntity resEntity = response.getEntity();
-//      if (resEntity != null) {
-//        result = EntityUtils.toString(resEntity, "UTF-8");
-//      }
-//    }
-//    return result;
-//  }
-
-
   @Override
   public String callBack(String json) throws Exception {
 

@@ -99,15 +99,13 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
       if(JSON.toJSONString(mqMessage).contains("<Kp>")){
         String result = returnInvoice.callBack(returnInvoice.pInvoice(mqMessage));
         logger.info(result);
-        if(result.contains("0000")) {
           stringToFile.pSave(mqMessage, pInPut, pOutPut);
-        }
+
       }else{
         String result= returnInvoice.callBack(returnInvoice.eInvoice(mqMessage));
         logger.info(result);
-        if(result.contains("0000")) {
           stringToFile.eSave(mqMessage, eInPut, eOutPut);
-        }
+
       }
       logger.info(JSON.toJSONString(message));
       logger.info(JSON.toJSONString(mqMessage));

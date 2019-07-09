@@ -24,7 +24,7 @@ public class Tools {
 
     JSONObject obj = (JSONObject) JSONObject.parse(json);
     // 第一种：使用while遍历方式
-    String value=new String();
+    String value="";
     Iterator<String> iterator = obj.keySet().iterator();
     while(iterator.hasNext()){
       String key = iterator.next();
@@ -47,7 +47,7 @@ public class Tools {
 
     JSONObject obj = (JSONObject) JSONObject.parse(json);
     // 第一种：使用while遍历方式
-    String value=new String();
+    String value="";
     Iterator<String> iterator = obj.keySet().iterator();
     while(iterator.hasNext()){
       String key = iterator.next();

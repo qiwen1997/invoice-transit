@@ -1,4 +1,4 @@
-package com.yonyou.invoicetransit;
+package com.yonyou.einvoice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

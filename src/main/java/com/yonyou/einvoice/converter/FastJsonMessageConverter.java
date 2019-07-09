@@ -61,10 +61,6 @@ public class FastJsonMessageConverter extends AbstractMessageConverter {
     return null;
   }
 
-//  public String getDefaultCharset() {
-//    return defaultCharset;
-//  }
-
   public void setDefaultCharset(String defaultCharset) {
     this.defaultCharset = defaultCharset;
   }

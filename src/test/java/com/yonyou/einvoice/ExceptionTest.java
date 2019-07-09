@@ -1,6 +1,5 @@
-package com.yonyou.invoicetransit;
+package com.yonyou.einvoice;
 
-import com.yonyou.einvoice.InvoiceTransitApplication;
 import com.yonyou.einvoice.exception.BusinessRuntimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;

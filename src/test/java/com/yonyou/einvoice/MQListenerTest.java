@@ -1,7 +1,6 @@
-package com.yonyou.invoicetransit;
+package com.yonyou.einvoice;
 
 import com.alibaba.fastjson.JSON;
-import com.yonyou.einvoice.InvoiceTransitApplication;
 import com.yonyou.einvoice.entity.MqMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
