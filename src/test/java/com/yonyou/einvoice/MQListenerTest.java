@@ -14,7 +14,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = InvoiceTransitApplication.class)
-@WebAppConfiguration
 public class MQListenerTest {
 
   @Value("${invoice.mq.queues}")

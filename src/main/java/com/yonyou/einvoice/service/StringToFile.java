@@ -11,7 +11,7 @@ public interface StringToFile {
    * @param filePath 文件路径
    * @return 成功标记
    */
-  public boolean stringFile(String res, String filePath) throws Exception;
+   boolean stringFile(String res, String filePath) throws Exception;
 
   /**
    * 保存电子发票
@@ -19,7 +19,7 @@ public interface StringToFile {
    * @param inPath
    * @param outPath
    */
-  public void eSave(MqMessage mqMessage,String inPath,String outPath);
+   void eSave(MqMessage mqMessage,String inPath,String outPath);
 
   /**
    * 保存纸质发票
@@ -27,7 +27,7 @@ public interface StringToFile {
    * @param inPath
    * @param outPath
    */
-  public void pSave(MqMessage mqMessage,String inPath,String outPath);
+   void pSave(MqMessage mqMessage,String inPath,String outPath);
 
 
 }

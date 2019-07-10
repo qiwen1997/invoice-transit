@@ -28,7 +28,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = InvoiceTransitApplication.class)
-@WebAppConfiguration
 public class TransitTest {
 
   private static final Logger log=LoggerFactory.getLogger(TransitTest.class);
