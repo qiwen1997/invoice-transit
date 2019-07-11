@@ -3,13 +3,9 @@ package com.yonyou.einvoice.service;
 import com.alibaba.fastjson.JSON;
 import com.yonyou.einvoice.entity.MqMessage;
 import com.yonyou.einvoice.util.Tools;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,35 +31,14 @@ public class StringToFileImpl implements StringToFile{
   @Override
   public  boolean stringFile(String res, String filePath) throws Exception {
     boolean flag = true;
-    BufferedReader reader=null;
-
-      File distFile = new File(filePath);
-      if (!distFile.getParentFile().exists()) {
-        boolean b=distFile.getParentFile().mkdirs();
-      }
-      //InputStreamReader inStream = new InputStreamReader(new StringReader(str), "GBK");
-
-      OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(filePath),"GBK");
-
-      reader = new BufferedReader(new StringReader(res));
-      BufferedWriter writer = new BufferedWriter(writerStream);
-      String lineWriter = null;
-      while ((lineWriter = reader.readLine()) != null) {
-        writer.write(lineWriter);
-        writer.newLine();
-        writer.flush();
-      }
-      reader.close();
-      writer.close();
-
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-
-      }
+    File distFile = new File(filePath);
+    if (!distFile.getParentFile().exists()) {
+      boolean b=distFile.getParentFile().mkdirs();
     }
+    Path path=distFile.toPath();
+
+    byte[] bytes=res.getBytes("GBK");
+    Files.write(path,bytes);
     return flag;
   }
   //保存电子发票
