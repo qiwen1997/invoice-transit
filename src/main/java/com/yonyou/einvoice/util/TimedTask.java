@@ -45,7 +45,7 @@ public class TimedTask {
   @Value("${save.time.mmcond}")
   private Long mmcond;
 
-  @Scheduled(cron="0 0/1 * * * ? ")
+  @Scheduled(cron="0 0 0 1/1 * ? ")
   public void configureTask()throws Exception{
     File fileEIn=new File(eInPut);
     logger.info("静态定时任务时间："+ LocalDateTime.now()+"----删除输入电子发票---文件地址："+eInPut);
