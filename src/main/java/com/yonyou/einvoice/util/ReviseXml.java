@@ -18,8 +18,6 @@ public class ReviseXml {
     } catch (DocumentException e) {
       e.printStackTrace();
     }
-   // doc.setXMLEncoding("GBK");
-    //return doc.asXML();
     return null;
   }
 

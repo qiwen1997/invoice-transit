@@ -7,7 +7,6 @@ import com.google.common.cache.LoadingCache;
 import com.rabbitmq.client.Channel;
 import com.yonyou.einvoice.service.ReturnInvoice;
 import com.yonyou.einvoice.service.StringToFile;
-import com.yonyou.einvoice.service.StringToFileImpl;
 import com.yonyou.einvoice.entity.MqMessage;
 import com.yonyou.einvoice.exception.BusinessRuntimeException;
 import java.io.IOException;
