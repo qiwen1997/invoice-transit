@@ -9,6 +9,12 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * RestTemplate配置
+ * 读取超时60秒
+ * 连接超时5秒
+ * created by qiwen on 2019/7/19
+ */
 @Configuration
 public class RestTemplateConfig {
 

@@ -6,12 +6,15 @@ import com.yonyou.einvoice.util.Tools;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 字符串转换成文件
+ *文件保存相关业务功能实现
+ * created by qiwen on 2019/7/19
  */
+@Slf4j
 @Service
 public class StringToFileImpl implements StringToFile{
 
@@ -50,7 +53,7 @@ public class StringToFileImpl implements StringToFile{
     try {
       stringToFile.stringFile(xml,inPath+name);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("字符串转文件异常",e.getMessage());
     }
     String resultXml= returnInvoice.electronToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
 
@@ -58,7 +61,7 @@ public class StringToFileImpl implements StringToFile{
     try {
       stringToFile.stringFile(resultXml,outPath+resultName);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("字符串转文件异常",e.getMessage());
     }
   }
   //保存纸质发票
@@ -70,7 +73,7 @@ public class StringToFileImpl implements StringToFile{
     try {
       stringToFile.stringFile(xml,inPath+name);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("字符串转文件异常",e.getMessage());
     }
     String resultXml= returnInvoice.paperToXML(Tools.getFpqqlshJSON(JSON.toJSONString(mqMessage)));
 
@@ -78,7 +81,7 @@ public class StringToFileImpl implements StringToFile{
     try {
       stringToFile.stringFile(resultXml,outPath+resultName);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("字符串转文件异常",e.getMessage());
     }
   }
 

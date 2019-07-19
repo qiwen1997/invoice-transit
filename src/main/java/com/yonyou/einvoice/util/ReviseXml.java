@@ -1,10 +1,11 @@
 package com.yonyou.einvoice.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 
-
+@Slf4j
 public class ReviseXml {
 
 
@@ -16,7 +17,7 @@ public class ReviseXml {
       doc.setXMLEncoding("GBK");
       return doc.asXML();
     } catch (DocumentException e) {
-      e.printStackTrace();
+      log.error("XML编码格式设置异常",e.getMessage());
     }
     return null;
   }

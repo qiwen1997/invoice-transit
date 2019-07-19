@@ -13,6 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * RabbitMQ配置
+ * 编码GBK
+ * 手动ACK
+ * created by qiwen on 2019/7/19
+ */
 @Configuration
 public class RabbitMQConfig {
 

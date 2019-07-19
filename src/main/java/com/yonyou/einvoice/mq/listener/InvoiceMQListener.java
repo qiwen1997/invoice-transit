@@ -92,6 +92,7 @@ public class InvoiceMQListener implements ChannelAwareMessageListener {
 
 
       if(JSON.toJSONString(mqMessage).contains("PDF_GEN_RESULT")) {
+        logger.debug("因从MQ中得到的消息为开票成功后写入MQ的成功消息，所以不做任何处理");
         return;
       }
 

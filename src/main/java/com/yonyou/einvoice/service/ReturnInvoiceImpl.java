@@ -25,7 +25,8 @@ import org.springframework.web.client.RestTemplate;
 
 
 /**
- * 生成返回结果
+ *发票相关业务功能实现
+ * created by qiwen on 2019/7/19
  */
 @Service
 public class ReturnInvoiceImpl implements ReturnInvoice{

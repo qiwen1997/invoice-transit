@@ -4,6 +4,7 @@ import java.util.Random;
 
 /**
  * 随机生成数字工具类
+ * created by qiwen on 2019/7/19
  */
 
 public class RandomCharData {

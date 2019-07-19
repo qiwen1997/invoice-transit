@@ -11,6 +11,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * 定时任务
+ * 定时检查是否有修改时间超过规定时间的文件
+ * 有则删除
+ * created by qiwen on 2019/7/19
+ */
 @Component
 @Configuration
 @EnableScheduling
@@ -45,6 +51,7 @@ public class TimedTask {
   @Value("${save.time.mmcond}")
   private Long mmcond;
 
+  //一天执行一次
   @Scheduled(cron="0 0 0 1/1 * ? ")
   public void configureTask()throws Exception{
     File fileEIn=new File(eInPut);
@@ -75,14 +82,6 @@ public class TimedTask {
 
       //获得绝对路径下的文件及文件夹
       File absFile = f.getAbsoluteFile();
-
-      //计算时间
-//      long day = 1;
-//      long hour = 24;
-//      long minute = 60;
-//      long second = 60;
-//      long mmcond = 1000;
-
 
       long currTime = System.currentTimeMillis();   //当前时间
 

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 数据提取和装填工具类
+ * created by qiwen on 2019/7/19
  */
 public class Tools {
 

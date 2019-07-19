@@ -2,6 +2,10 @@ package com.yonyou.einvoice.service;
 
 import com.yonyou.einvoice.entity.MqMessage;
 
+/**
+ *文件保存相关业务功能接口
+ * created by qiwen on 2019/7/19
+ */
 public interface StringToFile {
 
   /**

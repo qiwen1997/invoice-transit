@@ -3,6 +3,10 @@ package com.yonyou.einvoice.service;
 import com.yonyou.einvoice.entity.MqMessage;
 import com.yonyou.einvoice.entity.MqResult;
 
+/**
+ *发票相关业务功能接口
+ * created by qiwen on 2019/7/19
+ */
 public interface ReturnInvoice {
 
   /**
