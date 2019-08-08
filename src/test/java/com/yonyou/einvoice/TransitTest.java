@@ -37,6 +37,13 @@ public class TransitTest {
 
   @Autowired
   private StringToFile stringToFile;
+
+  @Test
+  public void keywordTest() throws Exception{
+    log.info(returnInvoice.listTaxPunishmentCall("4403",null,null));
+  }
+
+
   /**
    * 数据模拟开票
    */

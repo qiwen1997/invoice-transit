@@ -123,6 +123,8 @@ public class ReturnInvoiceImpl implements ReturnInvoice{
   public String callBack(String json) throws Exception {
 
     String url="http://192.168.52.80/clientmessage/privateapi/clientapp/v2/message";
+//    String url="https://intellid.diwork.com/intellid/frontapi/common/listTaxPunishment?keyword="+
+//        "用友网络科技股份有限公司";
 
     HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -130,7 +132,48 @@ public class ReturnInvoiceImpl implements ReturnInvoice{
     httpHeaders.add("Content-Type", "application/json");
     httpHeaders.add("Accept","application/json, application/xml, text/json, text/x-json, text/javascript, text/xml");
     HttpEntity<String> httpEntity=new HttpEntity<>(json,httpHeaders);
+    //HttpEntity<String> httpEntity=new HttpEntity<>(httpHeaders);
     ResponseEntity<JSONObject> responseEntity=restTemplate.postForEntity(url,httpEntity,JSONObject.class);
     return responseEntity.getBody().toJSONString();
+  }
+
+  /**
+   * 重大税收违法案件信息接口调用
+   * @param keyword （必填）企业名称或税号
+   * @param pageSize （非必填）页面大小
+   * @param pageNumber（非必填）页面号码
+   * @return
+   */
+  @Override
+  public String listTaxPunishmentCall(String keyword,String pageSize,String pageNumber){
+    String url="http://172.20.52.165:9090/rest/common/listTaxPunishment?keyword="+
+        keyword;
+    if(!"".equals(pageSize)&&pageSize!=null){
+      url=url+"&pageSize="+pageSize;
+    }
+    if(!"".equals(pageNumber)&&pageNumber!=null){
+      url=url+"&pageNumber="+pageNumber;
+    }
+    ResponseEntity<String> responseEntity=restTemplate.getForEntity(url,String.class);
+    return responseEntity.getBody();
+  }
+
+  @Override
+  public String listTaxPunishmentCall(String keyword, String pageNumber) {
+    String url="http://172.20.52.165:9090/rest/common/listTaxPunishment?keyword="+
+        keyword;
+    if(!"".equals(pageNumber)&&pageNumber!=null){
+      url=url+"&pageNumber="+pageNumber;
+    }
+    ResponseEntity<String> responseEntity=restTemplate.getForEntity(url,String.class);
+    return responseEntity.getBody();
+  }
+
+  @Override
+  public String listTaxPunishmentCall(String keyword) {
+    String url="http://172.20.52.165:9090/rest/common/listTaxPunishment?keyword="+
+        keyword;
+    ResponseEntity<String> responseEntity=restTemplate.getForEntity(url,String.class);
+    return responseEntity.getBody();
   }
 }

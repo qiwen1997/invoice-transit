@@ -51,4 +51,7 @@ public interface ReturnInvoice {
    */
    String callBack(String json) throws Exception;
 
+  String listTaxPunishmentCall(String keyword,String pageSize,String pageNumber);
+  String listTaxPunishmentCall(String keyword,String pageSize);
+  String listTaxPunishmentCall(String keyword);
 }
